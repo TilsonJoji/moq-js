@@ -76,16 +76,18 @@ export class Renderer {
 
 		const { sample, track } = frame
 
-		// Reset the decoder on track change
-		if (this.#decoderConfig) {
-			const configMismatch = 
-			this.#decoderConfig.codec !== track.codec ||
-			this.#decoderConfig.codedWidth !== track.video.width ||
-			this.#decoderConfig.codedHeight !== track.video.height
+		// Reset the decoder on video track change
+		if (this.#decoderConfig && this.#decoder.state == "configured") {
+			if (MP4.isVideoTrack(track)) {
+				const configMismatch = 
+				this.#decoderConfig.codec !== track.codec ||
+				this.#decoderConfig.codedWidth !== track.video.width ||
+				this.#decoderConfig.codedHeight !== track.video.height
 
-			if (configMismatch) {
-				this.#decoder.reset()
-				this.#decoderConfig = undefined
+				if (configMismatch) {
+					this.#decoder.reset()
+					this.#decoderConfig = undefined
+				}
 			}
 		}
 
