@@ -86,8 +86,13 @@ export class Subscriber {
 
 	async unsubscribe(track: string){
 		if (this.#trackToIDMap.has(track)) {
+			const trackID = this.#trackToIDMap.get(track);
+			if (trackID === undefined) {
+				console.warn(`Exception track ${track} not found in trackToIDMap.`)
+				return					
+			}
 			try{
-				await this.#control.send({kind: Control.Msg.Unsubscribe, id: this.#trackToIDMap.get(track) })
+				await this.#control.send({kind: Control.Msg.Unsubscribe, id: trackID })
 				this.#trackToIDMap.delete(track)
 			} catch (error) {
 				console.error(`Failed to unsubscribe from track ${track}:`, error)
