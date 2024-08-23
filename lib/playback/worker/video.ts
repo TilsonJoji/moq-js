@@ -4,7 +4,7 @@ import * as Message from "./message"
 
 interface DecoderConfig {
 	codec: string
-	description?: ArrayBuffer | TypedArray | DataView
+	description?: ArrayBuffer | Uint8Array | DataView
 	codedWidth?: number
 	codedHeight?: number
 	displayAspectWidth?: number
