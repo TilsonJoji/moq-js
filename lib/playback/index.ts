@@ -75,7 +75,7 @@ export class Player {
 				tracks.push(track)
 			}
 		})
-		
+
 		// Call #runInit on each unique init track
 		// TODO do this in parallel with #runTrack to remove a round trip
 		await Promise.all(Array.from(inits).map((init) => this.#runInit(...init)))
@@ -153,7 +153,7 @@ export class Player {
 		}
 	}
 
-	async getVideoTracks() {
+	getVideoTracks() {
 		return this.#catalog.tracks
 		.filter(Catalog.isVideoTrack)
 		.map(track => track.name)
@@ -164,18 +164,18 @@ export class Player {
 		if (currentTrack) {
 			console.log(`Unsubscribing from track: ${currentTrack.name} and Subscribing to track: ${trackname}`)
 			await this.unsubscribeFromTrack(currentTrack.name)
-		}else{
+		} else {
 			console.log(`Subscribing to track: ${trackname}`)
 		}
+
+		this.#tracknum = this.#catalog.tracks.findIndex((track) => track.name === trackname)
 		
-		this.#tracknum = this.#catalog.tracks.findIndex(track => track.name === trackname)
-		
-		const tracksToStream = this.#catalog.tracks.filter(track => track.name === trackname)
-		
+		const tracksToStream = this.#catalog.tracks.filter((track) => track.name === trackname)
+
 		await Promise.all(tracksToStream.map((track) => this.#runTrack(track)))
 	}
 
-	async unsubscribeFromTrack(trackname: string){
+	async unsubscribeFromTrack(trackname: string) {
 		await this.#connection.unsubscribe(trackname)
 	}
 

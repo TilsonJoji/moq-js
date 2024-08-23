@@ -14,7 +14,7 @@ interface DecoderConfig {
 		transfer?: "bt709" | "smpte170m" | "iec61966-2-1"
 		matrix?: "rgb" | "bt709" | "bt470bg" | "smpte170m"
 	}
-	hardwareAcceleration?: "no-preference" | "prefer-hardware" | "prefer-software" 
+	hardwareAcceleration?: "no-preference" | "prefer-hardware" | "prefer-software"
 	optimizeForLatency?: boolean
 }
 
@@ -79,10 +79,10 @@ export class Renderer {
 		// Reset the decoder on video track change
 		if (this.#decoderConfig && this.#decoder.state == "configured") {
 			if (MP4.isVideoTrack(track)) {
-				const configMismatch = 
-				this.#decoderConfig.codec !== track.codec ||
-				this.#decoderConfig.codedWidth !== track.video.width ||
-				this.#decoderConfig.codedHeight !== track.video.height
+				const configMismatch =
+					this.#decoderConfig.codec !== track.codec ||
+					this.#decoderConfig.codedWidth !== track.video.width ||
+					this.#decoderConfig.codedHeight !== track.video.height
 
 				if (configMismatch) {
 					this.#decoder.reset()
@@ -112,9 +112,9 @@ export class Renderer {
 			}
 
 			this.#decoder.configure(this.#decoderConfig)
-			if(!frame.sample.is_sync){
+			if (!frame.sample.is_sync) {
 				this.#waitingForKeyframe = true
-			}else{
+			} else {
 				this.#waitingForKeyframe = false
 			}
 		}
