@@ -51,7 +51,7 @@ export class Player {
 		this.#running = Promise.race([this.#run(), abort]).catch(this.#close)
 	}
 
-	static async create(config: PlayerConfig,tracknum: number): Promise<Player> {
+	static async create(config: PlayerConfig, tracknum: number): Promise<Player> {
 		const client = new Client({ url: config.url, fingerprint: config.fingerprint, role: "subscriber" })
 		const connection = await client.connect()
 
@@ -154,9 +154,7 @@ export class Player {
 	}
 
 	getVideoTracks() {
-		return this.#catalog.tracks
-		.filter(Catalog.isVideoTrack)
-		.map(track => track.name)
+		return this.#catalog.tracks.filter(Catalog.isVideoTrack).map((track) => track.name)
 	}
 
 	async switchTrack(trackname: string) {
@@ -167,11 +165,8 @@ export class Player {
 		} else {
 			console.log(`Subscribing to track: ${trackname}`)
 		}
-
 		this.#tracknum = this.#catalog.tracks.findIndex((track) => track.name === trackname)
-		
 		const tracksToStream = this.#catalog.tracks.filter((track) => track.name === trackname)
-
 		await Promise.all(tracksToStream.map((track) => this.#runTrack(track)))
 	}
 

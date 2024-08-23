@@ -89,7 +89,7 @@ export class Subscriber {
 			const trackID = this.#trackToIDMap.get(track)
 			if (trackID === undefined) {
 				console.warn(`Exception track ${track} not found in trackToIDMap.`)
-				return	
+				return
 			}
 			try {
 				await this.#control.send({ kind: Control.Msg.Unsubscribe, id: trackID })
